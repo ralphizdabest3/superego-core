@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SUPEREGO</title>
+  <meta name="description" content="SUPEREGO - Enter the room.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=VT323&family=Special+Elite&family=Caveat:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Tiny utility UI -->
+  <div class="utility-bar" id="utilityBar">
+    <button class="util-btn" id="soundToggle" aria-label="Toggle sound" title="Sound">♪</button>
+    <button class="util-btn" id="helpToggle" aria-label="Help" title="Help">?</button>
+  </div>
+
+  <!-- Help overlay -->
+  <div class="help-overlay" id="helpOverlay" hidden>
+    <div class="help-box">
+      <p>This is a room. Click things to explore.</p>
+      <p>Some objects do something. Some don't. That's the point.</p>
+      <button class="util-btn" id="helpClose" aria-label="Close help">OK</button>
+    </div>
+  </div>
+
+  <!-- ═══════ THE ROOM ═══════ -->
+  <div class="room" id="room" role="img" aria-label="An illustrated room. Click objects to explore.">
+
+    <!-- Back wall -->
+    <div class="room-wall"></div>
+    <div class="room-floor"></div>
+    <div class="room-pattern" aria-hidden="true"></div>
+
+    <!-- Window (left wall) -->
+    <div class="obj window" id="objWindow" data-object="window" tabindex="0" role="button" aria-label="Window">
+      <div class="window-frame">
+        <div class="window-glass">
+          <div class="window-sky"></div>
+          <div class="window-cloud window-cloud--1"></div>
+          <div class="window-cloud window-cloud--2"></div>
+        </div>
+        <div class="window-sill"></div>
+      </div>
+      <div class="window-light" aria-hidden="true"></div>
+    </div>
+
+    <!-- Posters on the wall (characters) -->
+    <div class="poster-strip">
+      <div class="obj poster" data-object="poster-meep" data-character="meep" tabindex="0" role="button" aria-label="Poster of Meep">
+        <img src="assets/characters/meep.svg" alt="Meep poster" width="120" height="156">
+        <div class="poster-tape"></div>
+      </div>
+      <div class="obj poster" data-object="poster-fish" data-character="fish" tabindex="0" role="button" aria-label="Poster of Fish">
+        <img src="assets/characters/fish.svg" alt="Fish poster" width="120" height="156">
+        <div class="poster-tape"></div>
+      </div>
+      <div class="obj poster" data-object="poster-404" data-character="404" tabindex="0" role="button" aria-label="Poster of 404">
+        <img src="assets/characters/404.svg" alt="404 poster" width="120" height="156">
+        <div class="poster-tape"></div>
+      </div>
+      <div class="obj poster" data-object="poster-lady" data-character="lady" tabindex="0" role="button" aria-label="Poster of Lady">
+        <img src="assets/characters/lady.svg" alt="Lady poster" width="120" height="156">
+        <div class="poster-tape"></div>
+      </div>
+    </div>
+
+    <!-- TV on the wall -->
+    <div class="obj tv" id="objTV" data-object="tv" tabindex="0" role="button" aria-label="Television">
+      <div class="tv-body">
+        <div class="tv-screen" id="tvScreen">
+          <div class="tv-static" aria-hidden="true"></div>
+          <div class="tv-content" id="tvContent" hidden>
+            <h3>SUPEREGO</h3>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+          </div>
+        </div>
+        <div class="tv-controls">
+          <div class="tv-knob"></div>
+          <div class="tv-knob"></div>
+        </div>
+      </div>
+      <div class="tv-stand"></div>
+      <div class="tv-glow" aria-hidden="true"></div>
+    </div>
+
+    <!-- Corkboard (wall) -->
+    <div class="obj corkboard" data-object="corkboard" tabindex="0" role="button" aria-label="Corkboard with notes">
+      <div class="corkboard-frame">
+        <div class="corkboard-surface">
+          <div class="note note--1"><span>Lorem</span></div>
+          <div class="note note--2"><span> ipsum</span></div>
+          <div class="note note--3"><span>dolor</span></div>
+          <div class="pin pin--1"></div>
+          <div class="pin pin--2"></div>
+          <div class="pin pin--3"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Shelf (center wall) -->
+    <div class="shelf">
+      <div class="shelf-board"></div>
+      <div class="obj shelf-item shelf-item--1" data-object="shelf-cd" tabindex="0" role="button" aria-label="CD case">
+        <div class="cd-case"></div>
+      </div>
+      <div class="obj shelf-item shelf-item--2" data-object="shelf-book" tabindex="0" role="button" aria-label="Book">
+        <div class="book"></div>
+      </div>
+      <div class="obj shelf-item shelf-item--3" data-object="shelf-toy" tabindex="0" role="button" aria-label="Small toy">
+        <div class="toy"></div>
+      </div>
+    </div>
+
+    <!-- Computer desk -->
+    <div class="obj desk" data-object="desk" tabindex="0" role="button" aria-label="Computer desk">
+      <div class="desk-surface">
+        <div class="obj computer" data-object="computer" tabindex="0" role="button" aria-label="Computer">
+          <div class="monitor">
+            <div class="monitor-screen" id="monitorScreen">
+              <div class="monitor-off" id="monitorOff"></div>
+              <div class="monitor-content" id="monitorContent" hidden>
+                <div class="desktop">
+                  <div class="desktop-icons">
+                    <div class="desktop-icon" data-open="creator"><span>readme.txt</span></div>
+                    <div class="desktop-icon" data-open="contact"><span>email.txt</span></div>
+                    <div class="desktop-icon" data-open="secret"><span>????.txt</span></div>
+                  </div>
+                  <div class="desktop-window" id="desktopWindow" hidden>
+                    <div class="window-bar"><span id="windowTitle">file</span><button class="window-close" id="windowClose" aria-label="Close window">×</button></div>
+                    <div class="window-body" id="windowBody"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="monitor-stand"></div>
+          </div>
+          <div class="keyboard"></div>
+        </div>
+        <div class="obj desk-lamp" data-object="lamp" tabindex="0" role="button" aria-label="Desk lamp">
+          <div class="lamp-arm"></div>
+          <div class="lamp-head"></div>
+          <div class="lamp-light" aria-hidden="true"></div>
+        </div>
+      </div>
+      <div class="desk-legs">
+        <div class="desk-leg"></div>
+        <div class="desk-leg"></div>
+      </div>
+    </div>
+
+    <!-- Chair -->
+    <div class="chair">
+      <div class="chair-back"></div>
+      <div class="chair-seat"></div>
+      <div class="chair-legs">
+        <div class="chair-leg"></div>
+        <div class="chair-leg"></div>
+      </div>
+    </div>
+
+    <!-- Door (right side) -->
+    <div class="obj door" data-object="door" tabindex="0" role="button" aria-label="Door">
+      <div class="door-body">
+        <div class="door-panel"></div>
+        <div class="door-knob"></div>
+      </div>
+      <div class="door-frame"></div>
+    </div>
+
+    <!-- Polaroids on floor / leaning against wall -->
+    <div class="polaroid-strip">
+      <div class="obj polaroid" data-character="ralph" tabindex="0" role="button" aria-label="Polaroid of Ralph">
+        <img src="assets/characters/ralph.svg" alt="Ralph polaroid" width="80" height="100">
+        <div class="polaroid-border"></div>
+      </div>
+      <div class="obj polaroid polaroid--tilted" data-character="gigi" tabindex="0" role="button" aria-label="Polaroid of Gigi">
+        <img src="assets/characters/gigi.svg" alt="Gigi polaroid" width="80" height="100">
+        <div class="polaroid-border"></div>
+      </div>
+      <div class="obj polaroid" data-character="leslie" tabindex="0" role="button" aria-label="Polaroid of Leslie">
+        <img src="assets/characters/leslie.svg" alt="Leslie polaroid" width="80" height="100">
+        <div class="polaroid-border"></div>
+      </div>
+      <div class="obj polaroid polaroid--tilted2" data-character="steev" tabindex="0" role="button" aria-label="Polaroid of Steev">
+        <img src="assets/characters/steev.svg" alt="Steev polaroid" width="80" height="100">
+        <div class="polaroid-border"></div>
+      </div>
+      <div class="obj polaroid" data-character="daisy" tabindex="0" role="button" aria-label="Polaroid of Daisy">
+        <img src="assets/characters/daisy.svg" alt="Daisy polaroid" width="80" height="100">
+        <div class="polaroid-border"></div>
+      </div>
+    </div>
+
+    <!-- Framed creator drawing (on wall near door) -->
+    <div class="obj creator-frame" data-object="creator" tabindex="0" role="button" aria-label="Framed drawing of the creator">
+      <img src="assets/creator.svg" alt="Creator drawing" width="120" height="150">
+      <div class="frame-border"></div>
+    </div>
+
+    <!-- Rug on floor -->
+    <div class="rug" aria-hidden="true"></div>
+
+    <!-- Dust particles -->
+    <div class="dust" aria-hidden="true">
+      <div class="dust-particle dust-particle--1"></div>
+      <div class="dust-particle dust-particle--2"></div>
+      <div class="dust-particle dust-particle--3"></div>
+      <div class="dust-particle dust-particle--4"></div>
+      <div class="dust-particle dust-particle--5"></div>
+    </div>
+
+    <!-- Ambient light from window -->
+    <div class="ambient-light" aria-hidden="true"></div>
+
+  </div>
+
+  <!-- ═══════ CONTENT PANELS (in-world) ═══════ -->
+  <div class="panel-overlay" id="panelOverlay" hidden aria-hidden="true"></div>
+
+  <!-- Character panel (opens from poster/polaroid click) -->
+  <div class="panel character-panel" id="characterPanel" hidden role="dialog" aria-label="Character information">
+    <button class="panel-close" id="charPanelClose" aria-label="Close">×</button>
+    <div class="panel-inner">
+      <div class="panel-img" id="charPanelImg"></div>
+      <div class="panel-info">
+        <h2 id="charPanelName"></h2>
+        <p class="panel-role" id="charPanelRole"></p>
+        <p class="panel-desc" id="charPanelDesc"></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- TV panel -->
+  <div class="panel tv-panel" id="tvPanel" hidden role="dialog" aria-label="Television">
+    <button class="panel-close" id="tvPanelClose" aria-label="Close">×</button>
+    <div class="panel-inner tv-panel-inner">
+      <h2>SUPEREGO</h2>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+      <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident.</p>
+    </div>
+  </div>
+
+  <!-- Corkboard panel -->
+  <div class="panel corkboard-panel" id="corkboardPanel" hidden role="dialog" aria-label="Corkboard">
+    <button class="panel-close" id="corkPanelClose" aria-label="Close">×</button>
+    <div class="panel-inner">
+      <h2>Notes</h2>
+      <div class="notes-grid">
+        <div class="panel-note">Lorem ipsum dolor sit amet</div>
+        <div class="panel-note">Consectetur adipiscing elit</div>
+        <div class="panel-note">Sed do eiusmod tempor</div>
+        <div class="panel-note">Incididunt ut labore et dolore</div>
+        <div class="panel-note">Magna aliqua ut enim</div>
+        <div class="panel-note">Ad minim veniam quis</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Door panel (secret) -->
+  <div class="panel door-panel" id="doorPanel" hidden role="dialog" aria-label="Behind the door">
+    <button class="panel-close" id="doorPanelClose" aria-label="Close">×</button>
+    <div class="panel-inner">
+      <h2>You found something.</h2>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+      <p class="door-hint">...or did you?</p>
+    </div>
+  </div>
+
+  <!-- Shelf items panel -->
+  <div class="panel shelf-panel" id="shelfPanel" hidden role="dialog" aria-label="Shelf item">
+    <button class="panel-close" id="shelfPanelClose" aria-label="Close">×</button>
+    <div class="panel-inner" id="shelfPanelBody">
+      <h2 id="shelfPanelTitle"></h2>
+      <p id="shelfPanelDesc"></p>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

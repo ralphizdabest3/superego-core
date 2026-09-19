@@ -4,74 +4,167 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SUPEREGO</title>
+  <meta name="description" content="SUPEREGO - An animated series about nine unforgettable characters.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+  <div class="bg-pattern" aria-hidden="true"></div>
+
   <header>
-    <h1>Our Animated TV Show</h1>
-    <nav>
-      <ul>
+    <nav class="nav" id="nav" aria-label="Main navigation">
+      <a href="#hero" class="nav-logo" aria-label="SUPEREGO home">
+        <img src="assets/logo-placeholder.svg" alt="SUPEREGO" width="160" height="40">
+      </a>
+      <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="navMenu" aria-label="Toggle navigation">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-links" id="navMenu" role="list">
         <li><a href="#about">About</a></li>
         <li><a href="#characters">Characters</a></li>
+        <li><a href="#creator">Creator</a></li>
         <li><a href="#contact">Contact</a></li>
       </ul>
     </nav>
   </header>
 
+  <section class="hero" id="hero" aria-label="Introduction">
+    <div class="hero-inner">
+      <div class="hero-text">
+        <p class="hero-eyebrow">An Animated Series</p>
+        <h1 class="hero-title">
+          <span class="hero-line hero-line--1" aria-hidden="true">SUPER</span>
+          <span class="hero-line hero-line--2" aria-hidden="true">EGO</span>
+        </h1>
+        <p class="hero-tagline">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+        <a href="#characters" class="hero-cta">Meet the Characters</a>
+      </div>
+      <div class="hero-artwork">
+        <img src="assets/background-placeholder.svg" alt="SUPEREGO ensemble artwork placeholder" width="800" height="500">
+        <div class="hero-decor hero-decor--1" aria-hidden="true"></div>
+        <div class="hero-decor hero-decor--2" aria-hidden="true"></div>
+        <div class="hero-decor hero-decor--3" aria-hidden="true"></div>
+      </div>
+    </div>
+    <div class="scroll-indicator" aria-hidden="true">
+      <span>Scroll</span>
+      <div class="scroll-line"></div>
+    </div>
+  </section>
+
   <main>
-    <section id="about" class="section">
-      <h2>About the Show</h2>
-      <p>Welcome to SUPEREGO! meow meoew meow meowwww.</p>
-    </section>
-
-    <section id="characters" class="section">
-      <h2>Meet the Characters</h2>
-      
-      <div class="character" data-name="meep">
-        <img src="placeholder.jpg" alt="Meep">
-        <h3>Meep</h3>
-        <p>meow meoew meow meowwww.</p>
-      </div>
-      
-      <div class="character" data-name="fish">
-        <img src="placeholder.jpg" alt="Fish">
-        <h3>Fish</h3>
-        <p>meow meoew meow meowwww.</p>
-      </div>
-      
-      <div class="character" data-name="404">
-        <img src="placeholder.jpg" alt="404">
-        <h3>404</h3>
-        <p>meow meoew meow meowwww.</p>
-      </div>
-      
-      <div class="character" data-name="lady">
-        <img src="placeholder.jpg" alt="Lady">
-        <h3>Lady</h3>
-        <p>meow meoew meow meowwww.</p>
-      </div>
-      
-      <div class="character" data-name="ralph">
-        <img src="placeholder.jpg" alt="Ralph">
-        <h3>Ralph</h3>
-        <p>meow meoew meow meowwww.</p>
-      </div>
-      
-      <div class="character" data-name="gigi">
-        <img src="placeholder.jpg" alt="Gigi">
-        <h3>Gigi</h3>
-        <p>meow meoew meow meowwww.</p>
+    <section class="about section" id="about">
+      <div class="container">
+        <div class="about-layout">
+          <div class="about-header reveal">
+            <span class="section-eyebrow">About the Show</span>
+            <h2 class="section-title">Where Every<br>Thought Counts</h2>
+          </div>
+          <div class="about-body reveal">
+            <div class="about-columns">
+              <div class="about-col">
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+              </div>
+              <div class="about-col">
+                <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.</p>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
 
-    <section id="contact" class="section">
-      <h2>Contact Us</h2>
-      <p>Have questions about SUPEREGO? Contact us at <a href="mailto:info@superego.cafe">info@superego.cafe</a>.</p>
+    <section class="characters section" id="characters">
+      <div class="container">
+        <div class="characters-header reveal">
+          <span class="section-eyebrow">The Cast</span>
+          <h2 class="section-title">Meet Everyone</h2>
+        </div>
+        <div class="character-grid">
+          <article class="character-card reveal" data-accent="pink">
+            <div class="character-card-img"><img src="assets/characters/meep-placeholder.svg" alt="Meep" width="280" height="380" loading="lazy"></div>
+            <div class="character-card-body"><h3 class="character-card-name">Meep</h3><p class="character-card-desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p></div>
+          </article>
+          <article class="character-card reveal" data-accent="blue">
+            <div class="character-card-img"><img src="assets/characters/fish-placeholder.svg" alt="Fish" width="280" height="380" loading="lazy"></div>
+            <div class="character-card-body"><h3 class="character-card-name">Fish</h3><p class="character-card-desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p></div>
+          </article>
+          <article class="character-card reveal" data-accent="yellow">
+            <div class="character-card-img"><img src="assets/characters/404-placeholder.svg" alt="404" width="280" height="380" loading="lazy"></div>
+            <div class="character-card-body"><h3 class="character-card-name">404</h3><p class="character-card-desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p></div>
+          </article>
+          <article class="character-card reveal" data-accent="lavender">
+            <div class="character-card-img"><img src="assets/characters/lady-placeholder.svg" alt="Lady" width="280" height="380" loading="lazy"></div>
+            <div class="character-card-body"><h3 class="character-card-name">Lady</h3><p class="character-card-desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p></div>
+          </article>
+          <article class="character-card reveal" data-accent="green">
+            <div class="character-card-img"><img src="assets/characters/ralph-placeholder.svg" alt="Ralph" width="280" height="380" loading="lazy"></div>
+            <div class="character-card-body"><h3 class="character-card-name">Ralph</h3><p class="character-card-desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p></div>
+          </article>
+          <article class="character-card reveal" data-accent="gold">
+            <div class="character-card-img"><img src="assets/characters/gigi-placeholder.svg" alt="Gigi" width="280" height="380" loading="lazy"></div>
+            <div class="character-card-body"><h3 class="character-card-name">Gigi</h3><p class="character-card-desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p></div>
+          </article>
+          <article class="character-card reveal" data-accent="pink">
+            <div class="character-card-img"><img src="assets/characters/leslie-placeholder.svg" alt="Leslie" width="280" height="380" loading="lazy"></div>
+            <div class="character-card-body"><h3 class="character-card-name">Leslie</h3><p class="character-card-desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p></div>
+          </article>
+          <article class="character-card reveal" data-accent="blue">
+            <div class="character-card-img"><img src="assets/characters/steev-placeholder.svg" alt="Steev" width="280" height="380" loading="lazy"></div>
+            <div class="character-card-body"><h3 class="character-card-name">Steev</h3><p class="character-card-desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p></div>
+          </article>
+          <article class="character-card reveal" data-accent="yellow">
+            <div class="character-card-img"><img src="assets/characters/daisy-placeholder.svg" alt="Daisy" width="280" height="380" loading="lazy"></div>
+            <div class="character-card-body"><h3 class="character-card-name">Daisy</h3><p class="character-card-desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="creator section" id="creator">
+      <div class="container">
+        <div class="creator-layout">
+          <div class="creator-visual reveal">
+            <img src="assets/creator-placeholder.svg" alt="Illustration of the creator" width="320" height="320">
+          </div>
+          <div class="creator-content reveal">
+            <span class="section-eyebrow">Behind the Scenes</span>
+            <h2 class="section-title">Meet the Creator</h2>
+            <blockquote class="creator-quote"><p>"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."</p></blockquote>
+            <p class="creator-bio">Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+            <p class="creator-bio">Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="contact section" id="contact">
+      <div class="container">
+        <div class="contact-layout reveal">
+          <span class="section-eyebrow">Get in Touch</span>
+          <h2 class="section-title">Say Hello</h2>
+          <p class="contact-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+          <a href="mailto:info@superego.cafe" class="contact-email">info@superego.cafe</a>
+        </div>
+      </div>
     </section>
   </main>
 
-  <footer>
-    <p>&copy; 2026 SUPEREGO</p>
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div class="footer-brand"><img src="assets/logo-placeholder.svg" alt="SUPEREGO" width="120" height="30"></div>
+      <nav class="footer-nav" aria-label="Footer navigation">
+        <ul role="list">
+          <li><a href="#about">About</a></li>
+          <li><a href="#characters">Characters</a></li>
+          <li><a href="#creator">Creator</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+      <p class="footer-copy">&copy; 2026 SUPEREGO. All rights reserved.</p>
+    </div>
   </footer>
 
   <script src="script.js"></script>

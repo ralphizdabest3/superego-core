@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" role="img" aria-label="Hero artwork placeholder">
+  <rect width="800" height="500" rx="24" fill="#FEFCF8"/>
+  <rect x="40" y="40" width="720" height="420" rx="16" fill="none" stroke="#E8A0B8" stroke-width="1" stroke-dasharray="8 4" opacity=".4"/>
+  <circle cx="200" cy="200" r="80" fill="#E8A0B8" opacity=".08"/>
+  <circle cx="600" cy="300" r="100" fill="#A0C8E8" opacity=".08"/>
+  <text x="400" y="260" font-family="system-ui,sans-serif" font-size="18" fill="#C8B8A8" text-anchor="middle" letter-spacing="4">ARTWORK PLACEHOLDER</text>
+</svg>
