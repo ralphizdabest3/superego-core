@@ -12,13 +12,11 @@
 </head>
 <body>
 
-  <!-- Tiny utility UI -->
   <div class="utility-bar" id="utilityBar">
     <button class="util-btn" id="soundToggle" aria-label="Toggle sound" title="Sound">♪</button>
     <button class="util-btn" id="helpToggle" aria-label="Help" title="Help">?</button>
   </div>
 
-  <!-- Help overlay -->
   <div class="help-overlay" id="helpOverlay" hidden>
     <div class="help-box">
       <p>This is a room. Click things to explore.</p>
@@ -27,10 +25,8 @@
     </div>
   </div>
 
-  <!-- ═══════ THE ROOM ═══════ -->
   <div class="room" id="room" role="img" aria-label="An illustrated room. Click objects to explore.">
 
-    <!-- Back wall -->
     <div class="room-wall"></div>
     <div class="room-floor"></div>
     <div class="room-pattern" aria-hidden="true"></div>
@@ -48,46 +44,7 @@
       <div class="window-light" aria-hidden="true"></div>
     </div>
 
-    <!-- Posters on the wall (characters) -->
-    <div class="poster-strip">
-      <div class="obj poster" data-object="poster-meep" data-character="meep" tabindex="0" role="button" aria-label="Poster of Meep">
-        <img src="assets/characters/meep.svg" alt="Meep poster" width="120" height="156">
-        <div class="poster-tape"></div>
-      </div>
-      <div class="obj poster" data-object="poster-fish" data-character="fish" tabindex="0" role="button" aria-label="Poster of Fish">
-        <img src="assets/characters/fish.svg" alt="Fish poster" width="120" height="156">
-        <div class="poster-tape"></div>
-      </div>
-      <div class="obj poster" data-object="poster-404" data-character="404" tabindex="0" role="button" aria-label="Poster of 404">
-        <img src="assets/characters/404.svg" alt="404 poster" width="120" height="156">
-        <div class="poster-tape"></div>
-      </div>
-      <div class="obj poster" data-object="poster-lady" data-character="lady" tabindex="0" role="button" aria-label="Poster of Lady">
-        <img src="assets/characters/lady.svg" alt="Lady poster" width="120" height="156">
-        <div class="poster-tape"></div>
-      </div>
-    </div>
-
-    <!-- TV on the wall -->
-    <div class="obj tv" id="objTV" data-object="tv" tabindex="0" role="button" aria-label="Television">
-      <div class="tv-body">
-        <div class="tv-screen" id="tvScreen">
-          <div class="tv-static" aria-hidden="true"></div>
-          <div class="tv-content" id="tvContent" hidden>
-            <h3>SUPEREGO</h3>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-          </div>
-        </div>
-        <div class="tv-controls">
-          <div class="tv-knob"></div>
-          <div class="tv-knob"></div>
-        </div>
-      </div>
-      <div class="tv-stand"></div>
-      <div class="tv-glow" aria-hidden="true"></div>
-    </div>
-
-    <!-- Corkboard (wall) -->
+    <!-- Corkboard (where TV was, shifted left) -->
     <div class="obj corkboard" data-object="corkboard" tabindex="0" role="button" aria-label="Corkboard with notes">
       <div class="corkboard-frame">
         <div class="corkboard-surface">
@@ -101,17 +58,21 @@
       </div>
     </div>
 
-    <!-- Shelf (center wall) -->
+    <!-- Shelf with books (no posters/polaroids) -->
     <div class="shelf">
       <div class="shelf-board"></div>
-      <div class="obj shelf-item shelf-item--1" data-object="shelf-cd" tabindex="0" role="button" aria-label="CD case">
-        <div class="cd-case"></div>
-      </div>
-      <div class="obj shelf-item shelf-item--2" data-object="shelf-book" tabindex="0" role="button" aria-label="Book">
-        <div class="book"></div>
-      </div>
-      <div class="obj shelf-item shelf-item--3" data-object="shelf-toy" tabindex="0" role="button" aria-label="Small toy">
-        <div class="toy"></div>
+      <div class="obj shelf-item shelf-item--books" data-object="shelf-books" tabindex="0" role="button" aria-label="Row of books">
+        <div class="books-row">
+          <div class="book book--1"></div>
+          <div class="book book--2"></div>
+          <div class="book book--3"></div>
+          <div class="book book--4"></div>
+          <div class="book book--5"></div>
+          <div class="book book--6"></div>
+          <div class="book book--7"></div>
+          <div class="book book--8"></div>
+          <div class="book book--9"></div>
+        </div>
       </div>
     </div>
 
@@ -153,7 +114,7 @@
     </div>
 
     <!-- Chair -->
-    <div class="chair">
+    <div class="obj chair" data-object="chair" tabindex="0" role="button" aria-label="Chair">
       <div class="chair-back"></div>
       <div class="chair-seat"></div>
       <div class="chair-legs">
@@ -162,7 +123,7 @@
       </div>
     </div>
 
-    <!-- Door (right side) -->
+    <!-- Door (right side, bottom aligned with floor) -->
     <div class="obj door" data-object="door" tabindex="0" role="button" aria-label="Door">
       <div class="door-body">
         <div class="door-panel"></div>
@@ -171,38 +132,8 @@
       <div class="door-frame"></div>
     </div>
 
-    <!-- Polaroids on floor / leaning against wall -->
-    <div class="polaroid-strip">
-      <div class="obj polaroid" data-character="ralph" tabindex="0" role="button" aria-label="Polaroid of Ralph">
-        <img src="assets/characters/ralph.svg" alt="Ralph polaroid" width="80" height="100">
-        <div class="polaroid-border"></div>
-      </div>
-      <div class="obj polaroid polaroid--tilted" data-character="gigi" tabindex="0" role="button" aria-label="Polaroid of Gigi">
-        <img src="assets/characters/gigi.svg" alt="Gigi polaroid" width="80" height="100">
-        <div class="polaroid-border"></div>
-      </div>
-      <div class="obj polaroid" data-character="leslie" tabindex="0" role="button" aria-label="Polaroid of Leslie">
-        <img src="assets/characters/leslie.svg" alt="Leslie polaroid" width="80" height="100">
-        <div class="polaroid-border"></div>
-      </div>
-      <div class="obj polaroid polaroid--tilted2" data-character="steev" tabindex="0" role="button" aria-label="Polaroid of Steev">
-        <img src="assets/characters/steev.svg" alt="Steev polaroid" width="80" height="100">
-        <div class="polaroid-border"></div>
-      </div>
-      <div class="obj polaroid" data-character="daisy" tabindex="0" role="button" aria-label="Polaroid of Daisy">
-        <img src="assets/characters/daisy.svg" alt="Daisy polaroid" width="80" height="100">
-        <div class="polaroid-border"></div>
-      </div>
-    </div>
-
-    <!-- Framed creator drawing (on wall near door) -->
-    <div class="obj creator-frame" data-object="creator" tabindex="0" role="button" aria-label="Framed drawing of the creator">
-      <img src="assets/creator.svg" alt="Creator drawing" width="120" height="150">
-      <div class="frame-border"></div>
-    </div>
-
     <!-- Rug on floor -->
-    <div class="rug" aria-hidden="true"></div>
+    <div class="obj rug" data-object="rug" tabindex="0" role="button" aria-label="Rug" aria-hidden="true"></div>
 
     <!-- Dust particles -->
     <div class="dust" aria-hidden="true">
@@ -213,15 +144,14 @@
       <div class="dust-particle dust-particle--5"></div>
     </div>
 
-    <!-- Ambient light from window -->
     <div class="ambient-light" aria-hidden="true"></div>
 
   </div>
 
-  <!-- ═══════ CONTENT PANELS (in-world) ═══════ -->
+  <!-- Content Panels -->
   <div class="panel-overlay" id="panelOverlay" hidden aria-hidden="true"></div>
 
-  <!-- Character panel (opens from poster/polaroid click) -->
+  <!-- Character panel -->
   <div class="panel character-panel" id="characterPanel" hidden role="dialog" aria-label="Character information">
     <button class="panel-close" id="charPanelClose" aria-label="Close">×</button>
     <div class="panel-inner">
@@ -231,16 +161,6 @@
         <p class="panel-role" id="charPanelRole"></p>
         <p class="panel-desc" id="charPanelDesc"></p>
       </div>
-    </div>
-  </div>
-
-  <!-- TV panel -->
-  <div class="panel tv-panel" id="tvPanel" hidden role="dialog" aria-label="Television">
-    <button class="panel-close" id="tvPanelClose" aria-label="Close">×</button>
-    <div class="panel-inner tv-panel-inner">
-      <h2>SUPEREGO</h2>
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-      <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident.</p>
     </div>
   </div>
 
@@ -270,12 +190,13 @@
     </div>
   </div>
 
-  <!-- Shelf items panel -->
-  <div class="panel shelf-panel" id="shelfPanel" hidden role="dialog" aria-label="Shelf item">
+  <!-- Books panel -->
+  <div class="panel shelf-panel" id="shelfPanel" hidden role="dialog" aria-label="Books">
     <button class="panel-close" id="shelfPanelClose" aria-label="Close">×</button>
     <div class="panel-inner" id="shelfPanelBody">
-      <h2 id="shelfPanelTitle"></h2>
-      <p id="shelfPanelDesc"></p>
+      <h2>Books</h2>
+      <p>Nine books, nine characters, nine stories untold. Each spine holds a different color, a different world inside.</p>
+      <p class="door-hint">You can't read them yet.</p>
     </div>
   </div>
 
