@@ -1,21 +1,31 @@
 (() => {
   const $ = (s, p) => (p || document).querySelector(s);
   const $$ = (s, p) => [...(p || document).querySelectorAll(s)];
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  // MEOW SOUND
+  const state = {
+    openedComputer: false,
+    openedCorkboard: false,
+    openedDoor: false,
+    lampOn: false,
+    soundOn: true,
+    foundSecret: false,
+  };
+
+  // MEOW SOUND - realistic cat meow synthesis
   let audioCtx = null;
-  let soundOn = true;
-
   function getAudioCtx() {
     if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
     return audioCtx;
   }
 
   function playMeow() {
-    if (!soundOn) return;
+    if (!state.soundOn) return;
     try {
       const ctx = getAudioCtx();
       const now = ctx.currentTime;
+
+      // Main meow oscillator - pitch sweep
       const osc1 = ctx.createOscillator();
       const gain1 = ctx.createGain();
       osc1.connect(gain1);
@@ -33,6 +43,8 @@
       gain1.gain.linearRampToValueAtTime(0.01, now + 0.45);
       osc1.start(now);
       osc1.stop(now + 0.45);
+
+      // Second harmonic for body
       const osc2 = ctx.createOscillator();
       const gain2 = ctx.createGain();
       osc2.connect(gain2);
@@ -50,6 +62,24 @@
       gain2.gain.linearRampToValueAtTime(0.01, now + 0.45);
       osc2.start(now);
       osc2.stop(now + 0.45);
+
+      // Noise for breathiness
+      const bufferSize = ctx.sampleRate * 0.45;
+      const noiseBuffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+      const noiseData = noiseBuffer.getChannelData(0);
+      for (let i = 0; i < bufferSize; i++) {
+        noiseData[i] = (Math.random() * 2 - 1) * 0.03;
+      }
+      const noise = ctx.createBufferSource();
+      noise.buffer = noiseBuffer;
+      const noiseGain = ctx.createGain();
+      noise.connect(noiseGain);
+      noiseGain.connect(ctx.destination);
+      noiseGain.gain.setValueAtTime(0.05, now);
+      noiseGain.gain.linearRampToValueAtTime(0.08, now + 0.1);
+      noiseGain.gain.linearRampToValueAtTime(0.01, now + 0.4);
+      noise.start(now);
+      noise.stop(now + 0.45);
     } catch (e) {}
   }
 
@@ -59,7 +89,6 @@
     const bubble = document.createElement('div');
     bubble.className = 'meow-bubble';
     bubble.textContent = 'meow';
-    el.style.position = el.style.position || 'relative';
     el.appendChild(bubble);
     setTimeout(() => bubble.remove(), 700);
   }
@@ -95,7 +124,9 @@
 
   overlay.addEventListener('click', closePanel);
   $$('.panel-close').forEach(btn => btn.addEventListener('click', closePanel));
-  document.addEventListener('keydown', e => { if (e.key === 'Escape') closePanel(); });
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closePanel();
+  });
 
   // CHARACTER PANEL
   const charPanel = $('#characterPanel');
@@ -104,15 +135,15 @@
   const charPanelRole = $('#charPanelRole');
   const charPanelDesc = $('#charPanelDesc');
   const characters = {
-    meep:   { name:'Meep',   img:'assets/characters/meep.svg' },
-    fish:   { name:'Fish',   img:'assets/characters/fish.svg' },
-    '404':  { name:'404',    img:'assets/characters/404.svg' },
-    lady:   { name:'Lady',   img:'assets/characters/lady.svg' },
-    ralph:  { name:'Ralph',  img:'assets/characters/ralph.svg' },
-    gigi:   { name:'Gigi',   img:'assets/characters/gigi.svg' },
-    leslie: { name:'Leslie', img:'assets/characters/leslie.svg' },
-    steev:  { name:'Steev',  img:'assets/characters/steev.svg' },
-    daisy:  { name:'Daisy',  img:'assets/characters/daisy.svg' },
+    meep:   { name:'Meep',   img:'assets/characters/meep.svg',   role:'Character' },
+    fish:   { name:'Fish',   img:'assets/characters/fish.svg',   role:'Character' },
+    '404':  { name:'404',    img:'assets/characters/404.svg',    role:'Character' },
+    lady:   { name:'Lady',   img:'assets/characters/lady.svg',   role:'Character' },
+    ralph:  { name:'Ralph',  img:'assets/characters/ralph.svg',  role:'Character' },
+    gigi:   { name:'Gigi',   img:'assets/characters/gigi.svg',   role:'Character' },
+    leslie: { name:'Leslie', img:'assets/characters/leslie.svg', role:'Character' },
+    steev:  { name:'Steev',  img:'assets/characters/steev.svg',  role:'Character' },
+    daisy:  { name:'Daisy',  img:'assets/characters/daisy.svg',  role:'Character' },
   };
 
   function openCharacter(key) {
@@ -120,107 +151,115 @@
     if (!c) return;
     charPanelImg.innerHTML = '<img src="' + c.img + '" alt="' + c.name + '">';
     charPanelName.textContent = c.name;
-    charPanelRole.textContent = 'Character';
+    charPanelRole.textContent = c.role;
     charPanelDesc.textContent = 'meow';
     openPanel(charPanel);
   }
   $('#charPanelClose').addEventListener('click', closePanel);
 
-  // BOOKS (individually clickable)
-  $$('.book[data-character]').forEach(book => {
-    const handler = (e) => {
-      e.stopPropagation();
-      openCharacter(book.dataset.character);
-    };
-    book.addEventListener('click', handler);
-    book.addEventListener('keydown', e => {
-      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handler(e); }
-    });
-  });
-
   // COMPUTER
-  const computer = $("[data-object='computer']");
+  const computer = $('.computer');
   const monitorScreen = $('#monitorScreen');
   const monitorContent = $('#monitorContent');
   const desktopWindow = $('#desktopWindow');
   const windowTitle = $('#windowTitle');
   const windowBody = $('#windowBody');
-  const windowCloseBtn = $('#windowClose');
+  const windowClose = $('#windowClose');
   let computerOn = false;
 
   function toggleComputer() {
     computerOn = !computerOn;
     monitorScreen.classList.toggle('on', computerOn);
     monitorContent.hidden = !computerOn;
-    if (!computerOn) {
-      desktopWindow.hidden = true;
-    }
+    if (computerOn) state.openedComputer = true;
+    if (!computerOn) { desktopWindow.hidden = true; closePanel(); }
   }
 
   computer.addEventListener('click', e => {
-    if (e.target.closest('.window-close')) {
-      e.stopPropagation();
-      desktopWindow.hidden = true;
-      return;
-    }
-    if (e.target.closest('.desktop-icon')) return;
-    if (e.target.closest('.desktop-window')) return;
+    if (e.target.closest('.desktop-icon') || e.target.closest('.window-close') || e.target.closest('.desktop-window')) return;
     toggleComputer();
   });
+  computer.addEventListener('keydown', e => {
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleComputer(); }
+  });
 
-  const fileContents = {
-    meow:   { title: 'meow.txt',   body: '<p>meow</p>' },
-    hi:     { title: 'hi.txt',     body: '<p>meow</p>' },
-    secret: { title: 'supersecret.txt', body: '<p>meep is secretly evil</p>' },
+  const windowContents = {
+    creator: { title:'readme.txt', body:'<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.</p><p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>' },
+    contact: { title:'email.txt', body:'<p>info@superego.cafe</p><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>' },
+    secret:  { title:'????.txt', body:'<p>You found something strange.</p><p>Lorem ipsum dolor sit amet... but something is different here.</p><p style="color:#f44">The file appears to be corrupted.</p>' },
   };
 
   $$('.desktop-icon').forEach(icon => {
     icon.addEventListener('click', e => {
       e.stopPropagation();
       const key = icon.dataset.open;
-      const content = fileContents[key];
+      const content = windowContents[key];
       if (!content) return;
       windowTitle.textContent = content.title;
       windowBody.innerHTML = content.body;
       desktopWindow.hidden = false;
+      if (key === 'secret') state.foundSecret = true;
     });
   });
 
-  windowCloseBtn.addEventListener('click', e => {
+  windowClose.addEventListener('click', e => {
     e.stopPropagation();
+    e.preventDefault();
     desktopWindow.hidden = true;
   });
 
   // CORKBOARD
-  const corkboard = $("[data-object='corkboard']");
+  const corkboard = $('[data-object="corkboard"]');
   const corkPanel = $('#corkboardPanel');
-  corkboard.addEventListener('click', () => openPanel(corkPanel));
-  corkboard.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openPanel(corkPanel); }});
+  corkboard.addEventListener('click', () => { state.openedCorkboard = true; openPanel(corkPanel); });
+  corkboard.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); state.openedCorkboard = true; openPanel(corkPanel); }});
   $('#corkPanelClose').addEventListener('click', closePanel);
 
-  // DOOR - goes to main website
-  const door = $("[data-object='door']");
-  door.addEventListener('click', () => { window.location.href = '../'; });
-  door.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); window.location.href = '../'; }});
+  // DOOR
+  const door = $('[data-object="door"]');
+  const doorPanel = $('#doorPanel');
+  door.addEventListener('click', () => { state.openedDoor = true; openPanel(doorPanel); });
+  door.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); state.openedDoor = true; openPanel(doorPanel); }});
+  $('#doorPanelClose').addEventListener('click', closePanel);
 
   // LAMP
-  const lamp = $("[data-object='lamp']");
-  let lampOn = false;
+  const lamp = $('[data-object="lamp"]');
   lamp.addEventListener('click', e => {
     e.stopPropagation();
-    lampOn = !lampOn;
-    lamp.classList.toggle('on', lampOn);
+    state.lampOn = !state.lampOn;
+    lamp.classList.toggle('on', state.lampOn);
   });
   lamp.addEventListener('keydown', e => {
     if (e.key === 'Enter' || e.key === ' ') {
       e.preventDefault();
-      lampOn = !lampOn;
-      lamp.classList.toggle('on', lampOn);
+      state.lampOn = !state.lampOn;
+      lamp.classList.toggle('on', state.lampOn);
     }
   });
 
+  // BOOKS (individually clickable)
+  $$('.book[data-character]').forEach(book => {
+    book.addEventListener('click', e => {
+      e.stopPropagation();
+      openCharacter(book.dataset.character);
+    });
+    book.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        openCharacter(book.dataset.character);
+      }
+    });
+  });
+
   // MEOW OBJECTS
-  $$('.chair, .rug, .window').forEach(el => {
+  const meowObjects = [
+    '[data-object="window"]',
+    '[data-object="chair"]',
+    '[data-object="rug"]',
+  ];
+  meowObjects.forEach(sel => {
+    const el = $(sel);
+    if (!el) return;
     el.addEventListener('click', () => meowAt(el));
     el.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); meowAt(el); }});
   });
@@ -233,7 +272,24 @@
   // SOUND TOGGLE
   const soundBtn = $('#soundToggle');
   soundBtn.addEventListener('click', () => {
-    soundOn = !soundOn;
-    soundBtn.style.opacity = soundOn ? '1' : '.5';
+    state.soundOn = !state.soundOn;
+    soundBtn.style.opacity = state.soundOn ? '1' : '.5';
   });
+
+  // KEYBOARD NAV
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Tab' && !e.shiftKey) {
+      const objects = $$('.obj');
+      const focused = document.activeElement;
+      const idx = objects.indexOf(focused);
+      if (idx === -1 && !focused.closest('.panel') && focused !== document.body) {
+        e.preventDefault();
+        objects[0]?.focus();
+      }
+    }
+  });
+
+  if (reducedMotion) {
+    $$('.dust-particle').forEach(p => p.style.animation = 'none');
+  }
 })();
