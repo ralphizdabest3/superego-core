@@ -60,11 +60,11 @@ button{background:none;border:none;cursor:pointer;font:inherit;color:inherit}
 .window-light{position:absolute;top:25%;left:0;width:180%;height:60%;background:linear-gradient(90deg,rgba(255,248,200,.1),transparent);transform:skewY(-8deg);pointer-events:none}
 @keyframes cloudDrift{from{transform:translateX(0)}to{transform:translateX(calc(clamp(280px,30vw,420px) + 80px))}}
 
-/* CORKBOARD (was TV position, shifted left) */
+/* CORKBOARD */
 .corkboard{top:5%;right:22%;z-index:11}
 .corkboard-frame{width:clamp(340px,32vw,480px);height:clamp(240px,22vw,340px);background:#8a7050;border:4px solid #6a5040;border-radius:3px;position:relative;box-shadow:3px 4px 14px rgba(0,0,0,.25)}
 .corkboard-surface{position:absolute;inset:6px;background:#c8a870;border-radius:1px}
-.note{position:absolute;width:72px;height:64px;padding:6px;font-family:var(--ff-hand);font-size:14px;color:var(--text);line-height:1.2;box-shadow:2px 3px 6px rgba(0,0,0,.15)}
+.note{position:absolute;width:72px;height:64px;padding:6px;font-family:var(--ff-hand);font-size:14px;color:var(--text);line-height:1.2;box-shadow:2px 3px 6px rgba(0,0,0,.15);display:flex;align-items:center;justify-content:center;text-align:center}
 .note--1{top:10px;left:14px;background:#f8f0a0;transform:rotate(-3deg)}
 .note--2{top:16px;right:18px;background:#a0d8f0;transform:rotate(2deg)}
 .note--3{bottom:12px;left:32px;background:#f0c0c0;transform:rotate(-1deg)}
@@ -73,13 +73,35 @@ button{background:none;border:none;cursor:pointer;font:inherit;color:inherit}
 .pin--2{top:12px;right:30px}
 .pin--3{bottom:22px;left:44px}
 
+/* PLANTS around corkboard */
+.plant{position:absolute;z-index:12}
+.plant--left{bottom:-40px;left:-20px}
+.plant--right{bottom:-40px;right:-20px}
+.plant--top{top:-30px;left:50%;transform:translateX(-50%)}
+.plant-pot{width:32px;height:24px;background:linear-gradient(180deg,#b06040,#904830);border-radius:2px 2px 4px 4px;position:relative}
+.plant-pot::before{content:'';position:absolute;top:-4px;left:-4px;right:-4px;height:6px;background:#b06040;border-radius:2px}
+.plant-leaf{position:absolute;width:18px;height:24px;background:#5a9050;border-radius:50% 0 50% 0;transform-origin:bottom center}
+.plant--left .plant-leaf--1{bottom:20px;left:4px;transform:rotate(-30deg)}
+.plant--left .plant-leaf--2{bottom:22px;left:12px;transform:rotate(10deg)}
+.plant--left .plant-leaf--3{bottom:18px;left:8px;transform:rotate(-60deg);width:14px;height:18px;background:#4a8040}
+.plant--right .plant-leaf--1{bottom:20px;right:4px;transform:rotate(30deg);border-radius:0 50% 0 50%}
+.plant--right .plant-leaf--2{bottom:22px;right:12px;transform:rotate(-10deg);border-radius:0 50% 0 50%}
+.plant--right .plant-leaf--3{bottom:18px;right:8px;transform:rotate(60deg);width:14px;height:18px;background:#4a8040;border-radius:0 50% 0 50%}
+.vine{position:absolute;width:3px;background:#5a9050;border-radius:2px;transform-origin:top center}
+.vine--1{left:-15px;height:40px;transform:rotate(-15deg);animation:vineWave 4s ease-in-out infinite}
+.vine--2{right:-15px;height:35px;transform:rotate(15deg);animation:vineWave 4s ease-in-out 1s infinite}
+@keyframes vineWave{0%,100%{transform:rotate(-15deg)}50%{transform:rotate(-10deg)}}
+.plant--top .vine--1{left:-15px;transform:rotate(-15deg)}
+.plant--top .vine--2{right:-15px;transform:rotate(15deg)}
+
 /* SHELF + BOOKS */
 .shelf{position:absolute;top:46%;left:28%;z-index:11}
 .shelf-board{width:clamp(400px,38vw,600px);height:8px;background:#7a6048;border-radius:3px;box-shadow:0 3px 8px rgba(0,0,0,.25)}
 .shelf-item{position:absolute;bottom:8px}
 .shelf-item--books{left:0;right:0}
 .books-row{display:flex;gap:3px;align-items:flex-end}
-.book{border-radius:2px 3px 3px 2px;box-shadow:2px 3px 6px rgba(0,0,0,.25)}
+.book{border-radius:2px 3px 3px 2px;box-shadow:2px 3px 6px rgba(0,0,0,.25);transition:transform .2s}
+.book:hover{transform:translateY(-6px) rotate(-2deg)!important}
 .book--1{width:28px;height:68px;background:linear-gradient(180deg,#a04050,#803040)}
 .book--2{width:24px;height:60px;background:linear-gradient(180deg,#4060a0,#3050a0)}
 .book--3{width:30px;height:72px;background:linear-gradient(180deg,#50a060,#388048)}
@@ -89,7 +111,6 @@ button{background:none;border:none;cursor:pointer;font:inherit;color:inherit}
 .book--7{width:20px;height:52px;background:linear-gradient(180deg,#608888,#486868)}
 .book--8{width:28px;height:70px;background:linear-gradient(180deg,#b87038,#985828)}
 .book--9{width:24px;height:58px;background:linear-gradient(180deg,#7070a0,#585888)}
-.shelf-item:hover .books-row{transform:translateY(-4px)}
 
 /* DESK + COMPUTER */
 .desk{bottom:18%;right:4%;z-index:15}
@@ -113,15 +134,20 @@ button{background:none;border:none;cursor:pointer;font:inherit;color:inherit}
 .desktop-icon span{text-shadow:0 0 6px var(--crt-glow)}
 .desktop-window{position:absolute;top:12px;left:12px;right:12px;bottom:12px;background:rgba(10,10,20,.92);border:1px solid var(--crt);border-radius:3px;display:flex;flex-direction:column}
 .window-bar{display:flex;justify-content:space-between;align-items:center;padding:4px 10px;background:rgba(64,216,112,.15);border-bottom:1px solid rgba(64,216,112,.3);font-size:.7em}
-.window-close{font-size:1.1em;line-height:1;padding:0 4px}
+.window-close{font-size:1.1em;line-height:1;padding:0 4px;cursor:pointer}
 .window-close:hover{color:#f44}
 .window-body{padding:10px;overflow-y:auto;font-size:.75em;line-height:1.5;color:var(--crt);text-shadow:0 0 4px var(--crt-glow)}
 
-.desk-lamp{position:absolute;bottom:14px;right:8%;z-index:16}
-.lamp-arm{width:4px;height:clamp(50px,6vw,80px);background:#555;margin:0 auto;transform-origin:bottom;transform:rotate(-15deg)}
-.lamp-head{width:clamp(40px,4vw,60px);height:14px;background:#444;border-radius:50% 50% 0 0;margin:0 auto;transform:rotate(-15deg)}
-.lamp-light{width:100px;height:100px;background:radial-gradient(ellipse at center,rgba(255,240,180,.18) 0%,transparent 70%);position:absolute;top:-14px;left:50%;transform:translateX(-50%);pointer-events:none;opacity:0;transition:opacity .3s}
+/* DESK LAMP - realistic design */
+.desk-lamp{position:absolute;bottom:14px;right:8%;z-index:16;width:60px;height:90px}
+.lamp-base{position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:36px;height:6px;background:linear-gradient(180deg,#555,#333);border-radius:3px;box-shadow:0 2px 4px rgba(0,0,0,.3)}
+.lamp-arm{position:absolute;bottom:6px;left:50%;transform:translateX(-50%);width:4px;height:50px;background:linear-gradient(180deg,#666,#444);transform-origin:bottom center;transform:translateX(-50%) rotate(-8deg)}
+.lamp-neck{position:absolute;bottom:52px;left:50%;transform:translateX(-50%) rotate(-8deg);width:4px;height:16px;background:#555;transform-origin:bottom center}
+.lamp-shade{position:absolute;bottom:62px;left:50%;transform:translateX(-50%);width:44px;height:22px;background:linear-gradient(180deg,#e8d8c0,#c8b8a0);border-radius:0 0 50% 50%/0 0 100% 100%;box-shadow:0 2px 6px rgba(0,0,0,.2);position:relative}
+.lamp-shade::after{content:'';position:absolute;bottom:-2px;left:50%;transform:translateX(-50%);width:36px;height:3px;background:#b0a088;border-radius:0 0 50% 50%}
+.lamp-light{width:120px;height:120px;background:radial-gradient(ellipse at center,rgba(255,240,180,.2) 0%,transparent 70%);position:absolute;bottom:50px;left:50%;transform:translateX(-50%);pointer-events:none;opacity:0;transition:opacity .3s}
 .desk-lamp.on .lamp-light{opacity:1}
+.desk-lamp.on .lamp-shade{background:linear-gradient(180deg,#f0e0c8,#d8c8b0)}
 
 /* CHAIR */
 .chair{bottom:12%;right:12%;z-index:14}
@@ -130,7 +156,7 @@ button{background:none;border:none;cursor:pointer;font:inherit;color:inherit}
 .chair-legs{display:flex;justify-content:space-between;padding:0 10px}
 .chair-leg{width:6px;height:20px;background:#5a4a3a}
 
-/* DOOR (bottom aligned with floor at 62%) */
+/* DOOR */
 .door{bottom:38%;right:1%;z-index:11}
 .door-body{width:clamp(140px,13vw,200px);height:clamp(280px,28vw,400px);background:linear-gradient(180deg,#6a5040,#5a4030);border-radius:4px 4px 0 0;position:relative;box-shadow:3px 4px 16px rgba(0,0,0,.35)}
 .door-panel{position:absolute;top:15%;left:15%;right:15%;height:35%;border:2px solid rgba(255,255,255,.08);border-radius:3px}
@@ -157,7 +183,7 @@ button{background:none;border:none;cursor:pointer;font:inherit;color:inherit}
 .panel-role{font-family:var(--ff-label);font-size:.85rem;letter-spacing:1px;text-transform:uppercase;color:var(--pink);margin-bottom:.5rem}
 .panel-desc{font-size:.95rem}
 .notes-grid{display:grid;grid-template-columns:1fr 1fr;gap:.8rem;margin-top:1rem}
-.panel-note{background:#f8f0a0;padding:.8rem;font-family:var(--ff-hand);font-size:1rem;color:var(--text);border-radius:2px;box-shadow:1px 2px 4px rgba(0,0,0,.1);transform:rotate(-1deg)}
+.panel-note{background:#f8f0a0;padding:.8rem;font-family:var(--ff-hand);font-size:1rem;color:var(--text);border-radius:2px;box-shadow:1px 2px 4px rgba(0,0,0,.1);transform:rotate(-1deg);text-align:center}
 .panel-note:nth-child(even){transform:rotate(1deg);background:#a0d8f0}
 .door-hint{font-family:var(--ff-hand);font-style:italic;color:var(--pink);font-size:1.1rem;margin-top:1rem}
 

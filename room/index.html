@@ -31,7 +31,6 @@
     <div class="room-floor"></div>
     <div class="room-pattern" aria-hidden="true"></div>
 
-    <!-- Window (left wall) -->
     <div class="obj window" id="objWindow" data-object="window" tabindex="0" role="button" aria-label="Window">
       <div class="window-frame">
         <div class="window-glass">
@@ -44,34 +43,51 @@
       <div class="window-light" aria-hidden="true"></div>
     </div>
 
-    <!-- Corkboard (where TV was, shifted left) -->
+    <!-- Corkboard -->
     <div class="obj corkboard" data-object="corkboard" tabindex="0" role="button" aria-label="Corkboard with notes">
       <div class="corkboard-frame">
         <div class="corkboard-surface">
-          <div class="note note--1"><span>Lorem</span></div>
-          <div class="note note--2"><span> ipsum</span></div>
-          <div class="note note--3"><span>dolor</span></div>
+          <div class="note note--1"><span>meow</span></div>
+          <div class="note note--2"><span>meow</span></div>
+          <div class="note note--3"><span>meow</span></div>
           <div class="pin pin--1"></div>
           <div class="pin pin--2"></div>
           <div class="pin pin--3"></div>
         </div>
       </div>
+      <!-- Plants around corkboard -->
+      <div class="plant plant--left" aria-hidden="true">
+        <div class="plant-pot"></div>
+        <div class="plant-leaf plant-leaf--1"></div>
+        <div class="plant-leaf plant-leaf--2"></div>
+        <div class="plant-leaf plant-leaf--3"></div>
+      </div>
+      <div class="plant plant--right" aria-hidden="true">
+        <div class="plant-pot"></div>
+        <div class="plant-leaf plant-leaf--1"></div>
+        <div class="plant-leaf plant-leaf--2"></div>
+        <div class="plant-leaf plant-leaf--3"></div>
+      </div>
+      <div class="plant plant--top" aria-hidden="true">
+        <div class="vine vine--1"></div>
+        <div class="vine vine--2"></div>
+      </div>
     </div>
 
-    <!-- Shelf with books (no posters/polaroids) -->
+    <!-- Shelf with individual books -->
     <div class="shelf">
       <div class="shelf-board"></div>
-      <div class="obj shelf-item shelf-item--books" data-object="shelf-books" tabindex="0" role="button" aria-label="Row of books">
+      <div class="shelf-item shelf-item--books">
         <div class="books-row">
-          <div class="book book--1"></div>
-          <div class="book book--2"></div>
-          <div class="book book--3"></div>
-          <div class="book book--4"></div>
-          <div class="book book--5"></div>
-          <div class="book book--6"></div>
-          <div class="book book--7"></div>
-          <div class="book book--8"></div>
-          <div class="book book--9"></div>
+          <div class="obj book book--1" data-character="meep" tabindex="0" role="button" aria-label="Meep's book"></div>
+          <div class="obj book book--2" data-character="fish" tabindex="0" role="button" aria-label="Fish's book"></div>
+          <div class="obj book book--3" data-character="404" tabindex="0" role="button" aria-label="404's book"></div>
+          <div class="obj book book--4" data-character="lady" tabindex="0" role="button" aria-label="Lady's book"></div>
+          <div class="obj book book--5" data-character="ralph" tabindex="0" role="button" aria-label="Ralph's book"></div>
+          <div class="obj book book--6" data-character="gigi" tabindex="0" role="button" aria-label="Gigi's book"></div>
+          <div class="obj book book--7" data-character="leslie" tabindex="0" role="button" aria-label="Leslie's book"></div>
+          <div class="obj book book--8" data-character="steev" tabindex="0" role="button" aria-label="Steev's book"></div>
+          <div class="obj book book--9" data-character="daisy" tabindex="0" role="button" aria-label="Daisy's book"></div>
         </div>
       </div>
     </div>
@@ -102,8 +118,10 @@
           <div class="keyboard"></div>
         </div>
         <div class="obj desk-lamp" data-object="lamp" tabindex="0" role="button" aria-label="Desk lamp">
+          <div class="lamp-base"></div>
           <div class="lamp-arm"></div>
-          <div class="lamp-head"></div>
+          <div class="lamp-neck"></div>
+          <div class="lamp-shade"></div>
           <div class="lamp-light" aria-hidden="true"></div>
         </div>
       </div>
@@ -113,7 +131,6 @@
       </div>
     </div>
 
-    <!-- Chair -->
     <div class="obj chair" data-object="chair" tabindex="0" role="button" aria-label="Chair">
       <div class="chair-back"></div>
       <div class="chair-seat"></div>
@@ -123,7 +140,6 @@
       </div>
     </div>
 
-    <!-- Door (right side, bottom aligned with floor) -->
     <div class="obj door" data-object="door" tabindex="0" role="button" aria-label="Door">
       <div class="door-body">
         <div class="door-panel"></div>
@@ -132,10 +148,8 @@
       <div class="door-frame"></div>
     </div>
 
-    <!-- Rug on floor -->
     <div class="obj rug" data-object="rug" tabindex="0" role="button" aria-label="Rug" aria-hidden="true"></div>
 
-    <!-- Dust particles -->
     <div class="dust" aria-hidden="true">
       <div class="dust-particle dust-particle--1"></div>
       <div class="dust-particle dust-particle--2"></div>
@@ -151,7 +165,6 @@
   <!-- Content Panels -->
   <div class="panel-overlay" id="panelOverlay" hidden aria-hidden="true"></div>
 
-  <!-- Character panel -->
   <div class="panel character-panel" id="characterPanel" hidden role="dialog" aria-label="Character information">
     <button class="panel-close" id="charPanelClose" aria-label="Close">×</button>
     <div class="panel-inner">
@@ -164,39 +177,27 @@
     </div>
   </div>
 
-  <!-- Corkboard panel -->
   <div class="panel corkboard-panel" id="corkboardPanel" hidden role="dialog" aria-label="Corkboard">
     <button class="panel-close" id="corkPanelClose" aria-label="Close">×</button>
     <div class="panel-inner">
       <h2>Notes</h2>
       <div class="notes-grid">
-        <div class="panel-note">Lorem ipsum dolor sit amet</div>
-        <div class="panel-note">Consectetur adipiscing elit</div>
-        <div class="panel-note">Sed do eiusmod tempor</div>
-        <div class="panel-note">Incididunt ut labore et dolore</div>
-        <div class="panel-note">Magna aliqua ut enim</div>
-        <div class="panel-note">Ad minim veniam quis</div>
+        <div class="panel-note">meow</div>
+        <div class="panel-note">meow</div>
+        <div class="panel-note">meow</div>
+        <div class="panel-note">meow</div>
+        <div class="panel-note">meow</div>
+        <div class="panel-note">meow</div>
       </div>
     </div>
   </div>
 
-  <!-- Door panel (secret) -->
   <div class="panel door-panel" id="doorPanel" hidden role="dialog" aria-label="Behind the door">
     <button class="panel-close" id="doorPanelClose" aria-label="Close">×</button>
     <div class="panel-inner">
       <h2>You found something.</h2>
       <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
       <p class="door-hint">...or did you?</p>
-    </div>
-  </div>
-
-  <!-- Books panel -->
-  <div class="panel shelf-panel" id="shelfPanel" hidden role="dialog" aria-label="Books">
-    <button class="panel-close" id="shelfPanelClose" aria-label="Close">×</button>
-    <div class="panel-inner" id="shelfPanelBody">
-      <h2>Books</h2>
-      <p>Nine books, nine characters, nine stories untold. Each spine holds a different color, a different world inside.</p>
-      <p class="door-hint">You can't read them yet.</p>
     </div>
   </div>
 

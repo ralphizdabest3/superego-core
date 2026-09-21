@@ -12,7 +12,7 @@
     foundSecret: false,
   };
 
-  // MEOW SOUND
+  // MEOW SOUND - realistic cat meow synthesis
   let audioCtx = null;
   function getAudioCtx() {
     if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -24,19 +24,62 @@
     try {
       const ctx = getAudioCtx();
       const now = ctx.currentTime;
-      const osc = ctx.createOscillator();
-      const gain = ctx.createGain();
-      osc.connect(gain);
-      gain.connect(ctx.destination);
-      osc.type = 'sine';
-      osc.frequency.setValueAtTime(700, now);
-      osc.frequency.exponentialRampToValueAtTime(400, now + 0.15);
-      osc.frequency.exponentialRampToValueAtTime(500, now + 0.25);
-      osc.frequency.exponentialRampToValueAtTime(300, now + 0.4);
-      gain.gain.setValueAtTime(0.3, now);
-      gain.gain.exponentialRampToValueAtTime(0.01, now + 0.45);
-      osc.start(now);
-      osc.stop(now + 0.45);
+
+      // Main meow oscillator - pitch sweep
+      const osc1 = ctx.createOscillator();
+      const gain1 = ctx.createGain();
+      osc1.connect(gain1);
+      gain1.connect(ctx.destination);
+      osc1.type = 'sawtooth';
+      osc1.frequency.setValueAtTime(800, now);
+      osc1.frequency.linearRampToValueAtTime(1200, now + 0.05);
+      osc1.frequency.linearRampToValueAtTime(600, now + 0.15);
+      osc1.frequency.linearRampToValueAtTime(900, now + 0.25);
+      osc1.frequency.linearRampToValueAtTime(400, now + 0.4);
+      gain1.gain.setValueAtTime(0.15, now);
+      gain1.gain.linearRampToValueAtTime(0.2, now + 0.05);
+      gain1.gain.linearRampToValueAtTime(0.12, now + 0.15);
+      gain1.gain.linearRampToValueAtTime(0.18, now + 0.25);
+      gain1.gain.linearRampToValueAtTime(0.01, now + 0.45);
+      osc1.start(now);
+      osc1.stop(now + 0.45);
+
+      // Second harmonic for body
+      const osc2 = ctx.createOscillator();
+      const gain2 = ctx.createGain();
+      osc2.connect(gain2);
+      gain2.connect(ctx.destination);
+      osc2.type = 'sine';
+      osc2.frequency.setValueAtTime(600, now);
+      osc2.frequency.linearRampToValueAtTime(900, now + 0.05);
+      osc2.frequency.linearRampToValueAtTime(450, now + 0.15);
+      osc2.frequency.linearRampToValueAtTime(700, now + 0.25);
+      osc2.frequency.linearRampToValueAtTime(300, now + 0.4);
+      gain2.gain.setValueAtTime(0.1, now);
+      gain2.gain.linearRampToValueAtTime(0.15, now + 0.05);
+      gain2.gain.linearRampToValueAtTime(0.08, now + 0.15);
+      gain2.gain.linearRampToValueAtTime(0.12, now + 0.25);
+      gain2.gain.linearRampToValueAtTime(0.01, now + 0.45);
+      osc2.start(now);
+      osc2.stop(now + 0.45);
+
+      // Noise for breathiness
+      const bufferSize = ctx.sampleRate * 0.45;
+      const noiseBuffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+      const noiseData = noiseBuffer.getChannelData(0);
+      for (let i = 0; i < bufferSize; i++) {
+        noiseData[i] = (Math.random() * 2 - 1) * 0.03;
+      }
+      const noise = ctx.createBufferSource();
+      noise.buffer = noiseBuffer;
+      const noiseGain = ctx.createGain();
+      noise.connect(noiseGain);
+      noiseGain.connect(ctx.destination);
+      noiseGain.gain.setValueAtTime(0.05, now);
+      noiseGain.gain.linearRampToValueAtTime(0.08, now + 0.1);
+      noiseGain.gain.linearRampToValueAtTime(0.01, now + 0.4);
+      noise.start(now);
+      noise.stop(now + 0.45);
     } catch (e) {}
   }
 
@@ -85,6 +128,35 @@
     if (e.key === 'Escape') closePanel();
   });
 
+  // CHARACTER PANEL
+  const charPanel = $('#characterPanel');
+  const charPanelImg = $('#charPanelImg');
+  const charPanelName = $('#charPanelName');
+  const charPanelRole = $('#charPanelRole');
+  const charPanelDesc = $('#charPanelDesc');
+  const characters = {
+    meep:   { name:'Meep',   img:'assets/characters/meep.svg',   role:'Character' },
+    fish:   { name:'Fish',   img:'assets/characters/fish.svg',   role:'Character' },
+    '404':  { name:'404',    img:'assets/characters/404.svg',    role:'Character' },
+    lady:   { name:'Lady',   img:'assets/characters/lady.svg',   role:'Character' },
+    ralph:  { name:'Ralph',  img:'assets/characters/ralph.svg',  role:'Character' },
+    gigi:   { name:'Gigi',   img:'assets/characters/gigi.svg',   role:'Character' },
+    leslie: { name:'Leslie', img:'assets/characters/leslie.svg', role:'Character' },
+    steev:  { name:'Steev',  img:'assets/characters/steev.svg',  role:'Character' },
+    daisy:  { name:'Daisy',  img:'assets/characters/daisy.svg',  role:'Character' },
+  };
+
+  function openCharacter(key) {
+    const c = characters[key];
+    if (!c) return;
+    charPanelImg.innerHTML = '<img src="' + c.img + '" alt="' + c.name + '">';
+    charPanelName.textContent = c.name;
+    charPanelRole.textContent = c.role;
+    charPanelDesc.textContent = 'meow';
+    openPanel(charPanel);
+  }
+  $('#charPanelClose').addEventListener('click', closePanel);
+
   // COMPUTER
   const computer = $('.computer');
   const monitorScreen = $('#monitorScreen');
@@ -130,7 +202,11 @@
     });
   });
 
-  windowClose.addEventListener('click', e => { e.stopPropagation(); desktopWindow.hidden = true; });
+  windowClose.addEventListener('click', e => {
+    e.stopPropagation();
+    e.preventDefault();
+    desktopWindow.hidden = true;
+  });
 
   // CORKBOARD
   const corkboard = $('[data-object="corkboard"]');
@@ -161,16 +237,21 @@
     }
   });
 
-  // SHELF (books)
-  const shelfPanel = $('#shelfPanel');
-  const shelfBooks = $('[data-object="shelf-books"]');
-  if (shelfBooks) {
-    shelfBooks.addEventListener('click', e => { e.stopPropagation(); openPanel(shelfPanel); });
-    shelfBooks.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openPanel(shelfPanel); }});
-  }
-  $('#shelfPanelClose').addEventListener('click', closePanel);
+  // BOOKS (individually clickable)
+  $$('.book[data-character]').forEach(book => {
+    book.addEventListener('click', e => {
+      e.stopPropagation();
+      openCharacter(book.dataset.character);
+    });
+    book.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        openCharacter(book.dataset.character);
+      }
+    });
+  });
 
-  // MEOW OBJECTS (things without on-click effects)
+  // MEOW OBJECTS
   const meowObjects = [
     '[data-object="window"]',
     '[data-object="chair"]',
