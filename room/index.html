@@ -31,6 +31,7 @@
     <div class="room-floor"></div>
     <div class="room-pattern" aria-hidden="true"></div>
 
+    <!-- Window -->
     <div class="obj window" id="objWindow" data-object="window" tabindex="0" role="button" aria-label="Window">
       <div class="window-frame">
         <div class="window-glass">
@@ -43,7 +44,7 @@
       <div class="window-light" aria-hidden="true"></div>
     </div>
 
-    <!-- Corkboard -->
+    <!-- Corkboard with plants -->
     <div class="obj corkboard" data-object="corkboard" tabindex="0" role="button" aria-label="Corkboard with notes">
       <div class="corkboard-frame">
         <div class="corkboard-surface">
@@ -55,59 +56,66 @@
           <div class="pin pin--3"></div>
         </div>
       </div>
-      <!-- Plants around corkboard -->
-      <div class="plant plant--left" aria-hidden="true">
-        <div class="plant-pot"></div>
-        <div class="plant-leaf plant-leaf--1"></div>
-        <div class="plant-leaf plant-leaf--2"></div>
-        <div class="plant-leaf plant-leaf--3"></div>
+      <div class="plant plant--left">
+        <div class="plant-leaves">
+          <div class="leaf leaf--1"></div>
+          <div class="leaf leaf--2"></div>
+          <div class="leaf leaf--3"></div>
+          <div class="leaf leaf--4"></div>
+        </div>
+        <div class="plant-pot">
+          <div class="pot-rim"></div>
+          <div class="pot-body"></div>
+        </div>
       </div>
-      <div class="plant plant--right" aria-hidden="true">
-        <div class="plant-pot"></div>
-        <div class="plant-leaf plant-leaf--1"></div>
-        <div class="plant-leaf plant-leaf--2"></div>
-        <div class="plant-leaf plant-leaf--3"></div>
-      </div>
-      <div class="plant plant--top" aria-hidden="true">
-        <div class="vine vine--1"></div>
-        <div class="vine vine--2"></div>
+      <div class="plant plant--right">
+        <div class="plant-leaves">
+          <div class="leaf leaf--1"></div>
+          <div class="leaf leaf--2"></div>
+          <div class="leaf leaf--3"></div>
+        </div>
+        <div class="plant-pot">
+          <div class="pot-rim"></div>
+          <div class="pot-body"></div>
+        </div>
       </div>
     </div>
 
-    <!-- Shelf with individual books -->
+    <!-- Shelf with books spread out -->
     <div class="shelf">
       <div class="shelf-board"></div>
-      <div class="shelf-item shelf-item--books">
-        <div class="books-row">
-          <div class="obj book book--1" data-character="meep" tabindex="0" role="button" aria-label="Meep's book"></div>
-          <div class="obj book book--2" data-character="fish" tabindex="0" role="button" aria-label="Fish's book"></div>
-          <div class="obj book book--3" data-character="404" tabindex="0" role="button" aria-label="404's book"></div>
-          <div class="obj book book--4" data-character="lady" tabindex="0" role="button" aria-label="Lady's book"></div>
-          <div class="obj book book--5" data-character="ralph" tabindex="0" role="button" aria-label="Ralph's book"></div>
-          <div class="obj book book--6" data-character="gigi" tabindex="0" role="button" aria-label="Gigi's book"></div>
-          <div class="obj book book--7" data-character="leslie" tabindex="0" role="button" aria-label="Leslie's book"></div>
-          <div class="obj book book--8" data-character="steev" tabindex="0" role="button" aria-label="Steev's book"></div>
-          <div class="obj book book--9" data-character="daisy" tabindex="0" role="button" aria-label="Daisy's book"></div>
-        </div>
+      <div class="books-row">
+        <div class="book-wrap"><div class="book book--1" data-character="meep" tabindex="0" role="button" aria-label="Meep's book"></div></div>
+        <div class="book-wrap"><div class="book book--2" data-character="fish" tabindex="0" role="button" aria-label="Fish's book"></div></div>
+        <div class="book-wrap"><div class="book book--3" data-character="404" tabindex="0" role="button" aria-label="404's book"></div></div>
+        <div class="book-wrap"><div class="book book--4" data-character="lady" tabindex="0" role="button" aria-label="Lady's book"></div></div>
+        <div class="book-wrap"><div class="book book--5" data-character="ralph" tabindex="0" role="button" aria-label="Ralph's book"></div></div>
+        <div class="book-wrap"><div class="book book--6" data-character="gigi" tabindex="0" role="button" aria-label="Gigi's book"></div></div>
+        <div class="book-wrap"><div class="book book--7" data-character="leslie" tabindex="0" role="button" aria-label="Leslie's book"></div></div>
+        <div class="book-wrap"><div class="book book--8" data-character="steev" tabindex="0" role="button" aria-label="Steev's book"></div></div>
+        <div class="book-wrap"><div class="book book--9" data-character="daisy" tabindex="0" role="button" aria-label="Daisy's book"></div></div>
       </div>
     </div>
 
     <!-- Computer desk -->
     <div class="obj desk" data-object="desk" tabindex="0" role="button" aria-label="Computer desk">
       <div class="desk-surface">
-        <div class="obj computer" data-object="computer" tabindex="0" role="button" aria-label="Computer">
+        <div class="computer" data-object="computer" tabindex="0" role="button" aria-label="Computer">
           <div class="monitor">
             <div class="monitor-screen" id="monitorScreen">
               <div class="monitor-off" id="monitorOff"></div>
               <div class="monitor-content" id="monitorContent" hidden>
                 <div class="desktop">
                   <div class="desktop-icons">
-                    <div class="desktop-icon" data-open="creator"><span>readme.txt</span></div>
-                    <div class="desktop-icon" data-open="contact"><span>email.txt</span></div>
-                    <div class="desktop-icon" data-open="secret"><span>????.txt</span></div>
+                    <div class="desktop-icon" data-open="meow"><span>meow.txt</span></div>
+                    <div class="desktop-icon" data-open="hi"><span>hi.txt</span></div>
+                    <div class="desktop-icon" data-open="secret"><span>supersecret.txt</span></div>
                   </div>
                   <div class="desktop-window" id="desktopWindow" hidden>
-                    <div class="window-bar"><span id="windowTitle">file</span><button class="window-close" id="windowClose" aria-label="Close window">×</button></div>
+                    <div class="window-bar">
+                      <span id="windowTitle">file</span>
+                      <button class="window-close" id="windowClose" aria-label="Close window">×</button>
+                    </div>
                     <div class="window-body" id="windowBody"></div>
                   </div>
                 </div>
@@ -117,12 +125,14 @@
           </div>
           <div class="keyboard"></div>
         </div>
-        <div class="obj desk-lamp" data-object="lamp" tabindex="0" role="button" aria-label="Desk lamp">
+        <div class="desk-lamp" data-object="lamp" tabindex="0" role="button" aria-label="Desk lamp">
           <div class="lamp-base"></div>
-          <div class="lamp-arm"></div>
-          <div class="lamp-neck"></div>
-          <div class="lamp-shade"></div>
-          <div class="lamp-light" aria-hidden="true"></div>
+          <div class="lamp-arm-lower"></div>
+          <div class="lamp-arm-upper"></div>
+          <div class="lamp-head">
+            <div class="lamp-shade"></div>
+          </div>
+          <div class="lamp-glow" aria-hidden="true"></div>
         </div>
       </div>
       <div class="desk-legs">
@@ -131,7 +141,8 @@
       </div>
     </div>
 
-    <div class="obj chair" data-object="chair" tabindex="0" role="button" aria-label="Chair">
+    <!-- Chair -->
+    <div class="chair" data-object="chair" tabindex="0" role="button" aria-label="Chair">
       <div class="chair-back"></div>
       <div class="chair-seat"></div>
       <div class="chair-legs">
@@ -140,7 +151,8 @@
       </div>
     </div>
 
-    <div class="obj door" data-object="door" tabindex="0" role="button" aria-label="Door">
+    <!-- Door -->
+    <div class="door" data-object="door" tabindex="0" role="button" aria-label="Door">
       <div class="door-body">
         <div class="door-panel"></div>
         <div class="door-knob"></div>
@@ -148,7 +160,8 @@
       <div class="door-frame"></div>
     </div>
 
-    <div class="obj rug" data-object="rug" tabindex="0" role="button" aria-label="Rug" aria-hidden="true"></div>
+    <!-- Rug -->
+    <div class="rug" data-object="rug" tabindex="0" role="button" aria-label="Rug"></div>
 
     <div class="dust" aria-hidden="true">
       <div class="dust-particle dust-particle--1"></div>
@@ -162,7 +175,7 @@
 
   </div>
 
-  <!-- Content Panels -->
+  <!-- Panels -->
   <div class="panel-overlay" id="panelOverlay" hidden aria-hidden="true"></div>
 
   <div class="panel character-panel" id="characterPanel" hidden role="dialog" aria-label="Character information">
@@ -189,15 +202,6 @@
         <div class="panel-note">meow</div>
         <div class="panel-note">meow</div>
       </div>
-    </div>
-  </div>
-
-  <div class="panel door-panel" id="doorPanel" hidden role="dialog" aria-label="Behind the door">
-    <button class="panel-close" id="doorPanelClose" aria-label="Close">×</button>
-    <div class="panel-inner">
-      <h2>You found something.</h2>
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-      <p class="door-hint">...or did you?</p>
     </div>
   </div>
 
